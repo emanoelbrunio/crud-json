@@ -1,0 +1,121 @@
+:root {
+    --cta: #3e78ff;
+    --cta90: #3e78ff99;
+    --fundoLista: #3e78ff20;
+    --fundoCabec: #fafafa;
+    --branco: #fff;
+    --fundoform: #fe9292;
+    --desativa: #d6d6d6;
+    --cinza: #2f2f2f;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 250px;
+    background: var(--fundoCabec);
+    align-items: center;
+}
+
+.header h2 {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.form {
+    display: none;
+}
+
+.block {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 20px 250px;
+    justify-content: end;
+    background: var(--fundoform);
+    transition: 0.5 all;
+}
+
+
+
+input {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#save {
+    background: var(--cta);
+    color: var(--branco);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.btt-add {
+    display: flex;
+    color: var(--branco);
+    font-weight: bold;
+    justify-content: space-between;
+    padding: 10px 20px;
+    gap: 10px;
+    background: var(--cta);
+    border-radius: 10px;
+    align-items: center;
+    transition: 0.5s all;
+    cursor: pointer;
+}
+
+.none {
+    background: var(--desativa);
+}
+
+.btt-add:hover {
+    background: var(--cta90);
+}
+
+
+
+
+/* lista */
+#ul {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px 250px;
+    background: var(--fundoLista);
+}
+
+
+
+/* card do li */
+.item {
+    background: var(--branco);
+    padding: 20px;
+    border-radius: 10px;
+
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* textos do li */
+.h2 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* div dos botões */
+.itemIcons {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+.itemIcons img {
+    width: 32px;    
+}
+
+

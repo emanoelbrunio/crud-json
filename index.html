@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Funcionário</title>
+
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+</head>
+<body>
+    <div>
+        <div class="header">
+            <h2>Funcionários</h2>
+
+            <button class="btt-add">
+                <img src="assets/imgs/add.svg" alt="Icone de adicionar">
+                <p>Adicionar novo funcionário</p>
+            </button>
+        </div>
+
+        <form action="" class="form">
+
+            <input type="text" placeholder="Nome do funcionário: " id="name" required>
+
+            <input type="text" placeholder="Função: " id="office" required>
+
+            <input type="number" placeholder="Salário: R$ " id="sallary" required>
+            
+
+            <input type="submit" value="Salvar funcionário" id="save">
+        </form>
+
+        <div class="listEmployee">
+
+            <ul id="ul">
+                
+            </ul>
+
+        </div>
+    </div>
+
+    <script type="module" src="./assets/javascript/index.js"></script>
+</body>
+</html>

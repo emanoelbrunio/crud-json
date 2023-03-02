@@ -5,6 +5,7 @@
     --fundoCabec: #fafafa;
     --branco: #fff;
     --fundoform: #fe9292;
+    --shadowModalDelete: #fddbdb;
     --desativa: #d6d6d6;
     --cinza: #2f2f2f;
 }
@@ -43,7 +44,7 @@ input {
     border-radius: 10px;
 }
 
-#save {
+#save, .save {
     background: var(--cta);
     color: var(--branco);
     font-size: 18px;
@@ -119,3 +120,49 @@ input {
 }
 
 
+
+.modalDelete {
+    background: var(--fundoCabec);
+    border: none;
+    border-radius: 15px;
+    padding: 50px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;  
+    width: 50%; 
+    box-shadow: 1px 1px 5px 0.1px var(--fundoform);
+}
+
+.noneModal {
+    display: none;
+}
+dialog::backdrop {
+    background-color: rgb(0, 0, 0, 0.5);
+}
+
+.line1 {    
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.line2 {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+.cancel, .delete {
+    background: var(--desativa);
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 15px;
+}
+
+.delete {
+    background: red;
+}

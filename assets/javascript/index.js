@@ -17,6 +17,7 @@ class Employee {
 //colocando valores no array
 let arrayEmployee= [];
 window.addEventListener('load', function(){
+
     if (JSON.parse(localStorage.getItem('ListEmployee')) !== null){
         arrayEmployee = [...JSON.parse(localStorage.getItem('ListEmployee'))];
         
@@ -69,12 +70,74 @@ function createLI(name, office, sallary, id){
     divButts.classList.add('itemIcons');
     
     divButts.appendChild(butEditar())
-    divButts.appendChild(butExcluir(id))
+    divButts.appendChild(butExcluir(name, office, sallary, id))
 
     li.appendChild(divButts)
     const ul = document.querySelector('#ul');
     ul.appendChild(li);
 }
+
+//funcao para criar modal
+
+function createModalDelete(name, office, sallary, idClass) {
+    const modal = document.querySelector('.modalDelete'); 
+    
+    
+    //textos do modal
+    const nameL = document.createElement('h2');
+    nameL.innerText =`${name}`;
+    nameL.classList.add('h2')
+    const officeL = document.createElement('h2');
+    officeL.innerText = `${office}`;
+    officeL.classList.add('h2')
+    const sallaryL = document.createElement('h2');
+    sallaryL.innerText = `R$ ${sallary}`
+    sallaryL.classList.add('h2')
+    
+    const divLine1 = document.querySelector('.line1')
+
+    divLine1.innerHTML = ''
+    divLine1.appendChild(nameL);
+    divLine1.appendChild(officeL);
+    divLine1.appendChild(sallaryL);
+
+    //btt cancelar
+    const cancel = document.createElement('button');
+    cancel.classList.add('cancel')
+    cancel.innerHTML = 'Cancelar'
+
+    //btt cta
+    const cta = document.createElement('button');
+    if(idClass === 1){
+        cta.classList.add('delete')
+        cta.innerText = 'Excluir definitivamente'
+    }
+    else {
+        cta.classList.add('saveUpdate')
+        cta.innerText = `Salvar alterações`
+    }
+    
+    const divLine2 = document.querySelector('.line2');
+    divLine2.innerHTML = ''
+    divLine2.appendChild(cancel)
+    divLine2.appendChild(cta)  
+
+    modal.appendChild(divLine1)
+    modal.appendChild(divLine2)
+ 
+    return modal;
+}
+
+function generateId() {
+     // pegando data e hora em mls desde 01/01/1970
+    const times = new Date().getTime();
+
+    //numero aleatorio
+    const random = Math.floor(Math.random() * 1000000);
+
+    //retornando uma string
+    return `${times}-${random}-${times}`;
+  }
 
 //salvando o funcionario novo no array e localstorage
 const buttSave = document.querySelector('#save');
@@ -83,7 +146,7 @@ buttSave.addEventListener('click', function(e) {
     const name = document.querySelector('#name').value;
     const office = document.querySelector('#office').value;
     const sallary= document.querySelector('#sallary').value;
-    const id = arrayEmployee.length;
+    const id = generateId();
 
     const employee= new Employee(name, sallary, office, id);
 
@@ -95,29 +158,42 @@ buttSave.addEventListener('click', function(e) {
 })
 
 
-
-
-
-
-
-
-
 //excluir
-const butExcluir = (id) => {
+const butExcluir = (name, office, sallary, id) => {
     const deletar = document.createElement('div');
     deletar.classList.add('deletar')
 
     deletar.innerHTML = `<img src="assets/imgs/delete.svg" alt="">`;
 
     deletar.addEventListener('click', (evento) => {
-
-        const botaoExcluir = evento.target
-        const tarefaCompleta = botaoExcluir.parentElement.parentElement.parentElement
-        tarefaCompleta.remove();
-
-        let newList = arrayEmployee.filter(e => e.id !== id);
-        arrayEmployee = [...newList]
-        saveLocal();
+       
+        let modal = createModalDelete(name, office, sallary, 1);
+        modal.showModal();
+        modal.classList.remove('noneModal');
+        
+        const cancel = document.querySelector('.cancel');
+        cancel.addEventListener('click', function(){
+            
+            modal.classList.add('noneModal');
+            modal.close();
+            
+            
+        });
+        
+        const cta = document.querySelector('.delete');
+        cta.addEventListener('click', function(){
+            modal.classList.add('noneModal');
+            modal.close();
+            const botaoExcluir = evento.target
+            const tarefaCompleta = botaoExcluir.parentElement.parentElement.parentElement
+            tarefaCompleta.remove();
+            
+            let newList = arrayEmployee.filter(e => e.id !== id);
+            arrayEmployee = [...newList]
+            saveLocal();
+        });
+     
+        
     })
 
     return deletar

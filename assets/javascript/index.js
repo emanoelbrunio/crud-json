@@ -59,7 +59,7 @@ function createLI(name, office, sallary, id){
     officeL.classList.add('h2')
 
     const sallaryL = document.createElement('h2');
-    sallaryL.innerText = `${sallary}`
+    sallaryL.innerText = `R$ ${parseFloat(sallary).toFixed(2)}`
     sallaryL.classList.add('h2')
    
     li.appendChild(nameL);
@@ -79,20 +79,20 @@ function createLI(name, office, sallary, id){
 
 //funcao para criar modal
 
-function createModalDelete(name, office, sallary, idClass) {
+function createModal(name, office, sallary) {
     const modal = document.querySelector('.modalDelete'); 
     
     
     //textos do modal
     const nameL = document.createElement('h2');
     nameL.innerText =`${name}`;
-    nameL.classList.add('h2')
+    nameL.classList.add('h2Modal')
     const officeL = document.createElement('h2');
     officeL.innerText = `${office}`;
-    officeL.classList.add('h2')
+    officeL.classList.add('h2Modal')
     const sallaryL = document.createElement('h2');
     sallaryL.innerText = `R$ ${sallary}`
-    sallaryL.classList.add('h2')
+    sallaryL.classList.add('h2Modal')
     
     const divLine1 = document.querySelector('.line1')
 
@@ -101,26 +101,33 @@ function createModalDelete(name, office, sallary, idClass) {
     divLine1.appendChild(officeL);
     divLine1.appendChild(sallaryL);
 
+    //msg de confirmação
+    const txt = document.createElement('h2');
+    txt.classList.add('txtConfirm')
+    txt.innerText = "Você realmente deseja excluir esse funcionário?"
+
     //btt cancelar
     const cancel = document.createElement('button');
     cancel.classList.add('cancel')
     cancel.innerHTML = 'Cancelar'
-
     //btt cta
     const cta = document.createElement('button');
-    if(idClass === 1){
-        cta.classList.add('delete')
-        cta.innerText = 'Excluir definitivamente'
-    }
-    else {
-        cta.classList.add('saveUpdate')
-        cta.innerText = `Salvar alterações`
-    }
+    cta.classList.add('delete')
+    cta.innerText = 'Excluir definitivamente'
+    
+
+    const div = document.createElement('div')
+    div.classList.add('divButts');
+
+    div.appendChild(cancel)
+    div.appendChild(cta)
     
     const divLine2 = document.querySelector('.line2');
     divLine2.innerHTML = ''
-    divLine2.appendChild(cancel)
-    divLine2.appendChild(cta)  
+    divLine2.appendChild(txt)
+
+    divLine2.appendChild(div)
+
 
     modal.appendChild(divLine1)
     modal.appendChild(divLine2)
@@ -167,7 +174,7 @@ const butExcluir = (name, office, sallary, id) => {
 
     deletar.addEventListener('click', (evento) => {
        
-        let modal = createModalDelete(name, office, sallary, 1);
+        let modal = createModal(name, office, sallary);
         modal.showModal();
         modal.classList.remove('noneModal');
         

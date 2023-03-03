@@ -367,4 +367,12 @@ function saveLocal () {
 }
 
 
-
+//fechando modal com esc
+window.addEventListener('keydown', function(e){
+    const modal = document.querySelector('dialog');
+    if(modal.open){
+        if(e.keyCode === 27){
+            modal.classList.add('noneModal')
+        }
+    }
+});

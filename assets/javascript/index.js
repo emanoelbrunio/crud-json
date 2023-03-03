@@ -221,18 +221,25 @@ function generateId() {
 const buttSave = document.querySelector('#save');
 buttSave.addEventListener('click', function(e) {
     e.preventDefault()
+    
+    
     const name = document.querySelector('#name').value;
     const office = document.querySelector('#office').value;
     const sallary= document.querySelector('#sallary').value;
     const id = generateId();
 
-    const employee= new Employee(name, sallary, office, id);
-
-    arrayEmployee.push(employee);
-
-    createLI(name, office, sallary, id)
-
-    saveLocal();
+    if( name.trim().length
+        && office.trim().length
+        && sallary > 0
+    ){   
+        const employee= new Employee(name, sallary, office, id);  
+        arrayEmployee.push(employee); 
+        createLI(name, office, sallary, id)
+        saveLocal();
+    }
+    else {
+        alert("Preencha todos os campos corretamente antes de adicionar um funcionário!")
+    }
 })
 
 
@@ -316,28 +323,35 @@ const butEditar = (name, office, sallary, id) => {
         const cta = document.querySelector('.saveEdit');
         cta.addEventListener('click', function(){
             
-            modal.classList.add('noneModal');
-            modal.close();
-           
-            let n, o, s;
-            arrayEmployee.forEach((e) => {
-                if(e.id === id){
-                    e.name = document.querySelector('.name').value;
-                    e.sallary = document.querySelector('.sallary').value;
-                    e.office = document.querySelector('.office').value;
+            let name = document.querySelector('.name').value;
+            let sallary = document.querySelector('.sallary').value;
+            let office = document.querySelector('.office').value;
 
-                    n = document.querySelector('.name').value;
-                    s = document.querySelector('.sallary').value;
-                    o = document.querySelector('.office').value;    
-                }
-            })
+            if( name.trim().length
+                && office.trim().length
+                && sallary > 0
+            ) {
+                modal.classList.add('noneModal');
+                modal.close();
 
-            const li = document.getElementById(`${id}`)
-            li.querySelector('.n').innerHTML = n;
-            li.querySelector('.o').innerHTML = o;
-            li.querySelector('.s').innerHTML = 'R$ ' + parseFloat(s).toFixed(2);
-                     
-            saveLocal();
+                arrayEmployee.forEach((e) => {
+                    if(e.id === id){
+                        e.name = name;
+                        e.sallary = sallary;
+                        e.office = office;                        
+                    }
+                })
+
+                const li = document.getElementById(`${id}`)
+                li.querySelector('.n').innerHTML = name;
+                li.querySelector('.o').innerHTML = office;
+                li.querySelector('.s').innerHTML = 'R$ ' + parseFloat(sallary).toFixed(2);
+                        
+                saveLocal();
+            }
+            else {
+                alert("Preencha todos os campos corretamente antes de adicionar um funcionário!")
+            }
            
         });
     })

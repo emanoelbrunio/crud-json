@@ -21,7 +21,6 @@ window.addEventListener('load', function(){
     if (JSON.parse(localStorage.getItem('ListEmployee')) !== null){
         arrayEmployee = [...JSON.parse(localStorage.getItem('ListEmployee'))];
         
-
         arrayEmployee.forEach(e => createLI(e.name, e.office, e.sallary, e.id))
     }
 })
@@ -50,6 +49,7 @@ function createLI(name, office, sallary, id){
     const li = document.createElement('li')
     li.classList.add('item');
     li.id = id;
+    
     //h2
     const nameL = document.createElement('h2');
     nameL.innerText =`${name}`;
@@ -91,15 +91,18 @@ function createModalDelete(name, office, sallary) {
     const nameL = document.createElement('h2');
     nameL.innerText =`${name}`;
     nameL.classList.add('h2Modal')
+
     const officeL = document.createElement('h2');
     officeL.innerText = `${office}`;
     officeL.classList.add('h2Modal')
+
     const sallaryL = document.createElement('h2');
     sallaryL.innerText = `R$ ${sallary}`
     sallaryL.classList.add('h2Modal')
     
     const divLine1 = document.querySelector('.line1')
 
+    //para iniciar linha1 no 0, caso já tenha algo
     divLine1.innerHTML = ''
     divLine1.appendChild(nameL);
     divLine1.appendChild(officeL);
@@ -113,7 +116,8 @@ function createModalDelete(name, office, sallary) {
     //btt cancelar
     const cancel = document.createElement('button');
     cancel.classList.add('cancel')
-    cancel.innerHTML = 'Cancelar'
+    cancel.innerText = 'Cancelar'
+
     //btt cta
     const cta = document.createElement('button');
     cta.classList.add('delete')
@@ -128,10 +132,9 @@ function createModalDelete(name, office, sallary) {
     
     const divLine2 = document.querySelector('.line2');
     divLine2.innerHTML = ''
+
     divLine2.appendChild(txt)
-
     divLine2.appendChild(div)
-
 
     modal.appendChild(divLine1)
     modal.appendChild(divLine2)
@@ -205,7 +208,7 @@ function createModalEdit(name, office, sallary) {
 
 //funcao para gerar ID
 function generateId() {
-     // pegando data e hora em mls desde 01/01/1970
+    // pegando data e hora em mls desde 01/01/1970
     const times = new Date().getTime();
 
     //numero aleatorio
@@ -221,13 +224,12 @@ function generateId() {
 const buttSave = document.querySelector('#save');
 buttSave.addEventListener('click', function(e) {
     e.preventDefault()
-    
-    
+        
     const name = document.querySelector('#name').value;
     const office = document.querySelector('#office').value;
     const sallary= document.querySelector('#sallary').value;
     const id = generateId();
-
+    
     if( name.trim().length
         && office.trim().length
         && sallary > 0
@@ -247,8 +249,6 @@ buttSave.addEventListener('click', function(e) {
 //excluir
 const butExcluir = (name, office, sallary, id) => {
     const deletar = document.createElement('div');
-    deletar.classList.add('deletar')
-
     deletar.innerHTML = `<img src="assets/imgs/delete.svg" alt="">`;
 
     deletar.addEventListener('click', (evento) => {
@@ -265,12 +265,11 @@ const butExcluir = (name, office, sallary, id) => {
         modal.showModal();
         modal.classList.remove('noneModal');
         
+        //fechar modal
         const cancel = document.querySelector('.cancel');
-        cancel.addEventListener('click', function(){
-            
+        cancel.addEventListener('click', function(){ 
             modal.classList.add('noneModal');
-            modal.close();
-                        
+            modal.close();               
         });
         
         const cta = document.querySelector('.delete');
@@ -314,6 +313,7 @@ const butEditar = (name, office, sallary, id) => {
         modal.showModal();
         modal.classList.remove('noneModal');
 
+        //fechar modal
         const cancel = document.querySelector('.cancel');
         cancel.addEventListener('click', function(){
             modal.classList.add('noneModal');
@@ -370,6 +370,7 @@ function saveLocal () {
 //fechando modal com esc
 window.addEventListener('keydown', function(e){
     const modal = document.querySelector('dialog');
+
     if(modal.open){
         if(e.keyCode === 27){
             modal.classList.add('noneModal')

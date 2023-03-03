@@ -44,23 +44,27 @@ document.querySelector('.btt-add').onclick = function() {
 }
 
 
+
 //função para criar componenete li
 function createLI(name, office, sallary, id){
     const li = document.createElement('li')
     li.classList.add('item');
-
+    li.id = id;
     //h2
     const nameL = document.createElement('h2');
     nameL.innerText =`${name}`;
     nameL.classList.add('h2')
+    nameL.classList.add('n')
     
     const officeL = document.createElement('h2');
     officeL.innerText = `${office}`;
     officeL.classList.add('h2')
+    officeL.classList.add('o')
 
     const sallaryL = document.createElement('h2');
     sallaryL.innerText = `R$ ${parseFloat(sallary).toFixed(2)}`
     sallaryL.classList.add('h2')
+    sallaryL.classList.add('s')
    
     li.appendChild(nameL);
     li.appendChild(officeL);
@@ -69,7 +73,7 @@ function createLI(name, office, sallary, id){
     const divButts = document.createElement('div');
     divButts.classList.add('itemIcons');
     
-    divButts.appendChild(butEditar())
+    divButts.appendChild(butEditar(name, office, sallary, id))
     divButts.appendChild(butExcluir(name, office, sallary, id))
 
     li.appendChild(divButts)
@@ -77,11 +81,11 @@ function createLI(name, office, sallary, id){
     ul.appendChild(li);
 }
 
-//funcao para criar modal
 
-function createModal(name, office, sallary) {
+
+//funcao para criar modal
+function createModalDelete(name, office, sallary) {
     const modal = document.querySelector('.modalDelete'); 
-    
     
     //textos do modal
     const nameL = document.createElement('h2');
@@ -135,6 +139,71 @@ function createModal(name, office, sallary) {
     return modal;
 }
 
+
+
+//modal de editar
+function createModalEdit(name, office, sallary) {
+    const modal = document.querySelector('.modalDelete'); 
+    
+    //textos do modal
+    const nameL = document.createElement('input');
+    nameL.value=`${name}`;
+    nameL.classList.add('inputModal')
+    nameL.classList.add('name')
+    
+    const officeL = document.createElement('input');
+    officeL.value = `${office}`;
+    officeL.classList.add('inputModal')
+    officeL.classList.add('office')
+
+    const sallaryL = document.createElement('input');
+    sallaryL.value= `${sallary}`
+    sallaryL.classList.add('inputModal')
+    sallaryL.classList.add('sallary')
+    
+    const divLine1 = document.querySelector('.line1')
+
+    divLine1.innerHTML = ''
+    divLine1.appendChild(nameL);
+    divLine1.appendChild(officeL);
+    divLine1.appendChild(sallaryL);
+
+    //msg de confirmação
+    const txt = document.createElement('h2');
+    txt.classList.add('txtConfirmEdit')
+    txt.innerText = "Você realmente deseja editar esse funcionário?"
+
+    //btt cancelar
+    const cancel = document.createElement('button');
+    cancel.classList.add('cancel')
+    cancel.innerHTML = 'Cancelar'
+    //btt cta
+    const cta = document.createElement('button');
+    cta.classList.add('saveEdit')
+    cta.innerText = 'Salvar alterações'
+    
+    const div = document.createElement('div')
+    div.classList.add('divButts');
+
+    div.appendChild(cancel)
+    div.appendChild(cta)
+    
+    const divLine2 = document.querySelector('.line2');
+    divLine2.innerHTML = ''
+    divLine2.appendChild(txt)
+
+    divLine2.appendChild(div)
+
+
+    modal.appendChild(divLine1)
+    modal.appendChild(divLine2)
+ 
+    return modal;
+}
+
+
+
+//funcao para gerar ID
 function generateId() {
      // pegando data e hora em mls desde 01/01/1970
     const times = new Date().getTime();
@@ -144,7 +213,9 @@ function generateId() {
 
     //retornando uma string
     return `${times}-${random}-${times}`;
-  }
+}
+
+
 
 //salvando o funcionario novo no array e localstorage
 const buttSave = document.querySelector('#save');
@@ -165,6 +236,7 @@ buttSave.addEventListener('click', function(e) {
 })
 
 
+
 //excluir
 const butExcluir = (name, office, sallary, id) => {
     const deletar = document.createElement('div');
@@ -173,8 +245,16 @@ const butExcluir = (name, office, sallary, id) => {
     deletar.innerHTML = `<img src="assets/imgs/delete.svg" alt="">`;
 
     deletar.addEventListener('click', (evento) => {
-       
-        let modal = createModal(name, office, sallary);
+
+        arrayEmployee.forEach((e)=> {
+            if(e.id === id){
+                name = e.name;
+                office = e.office;
+                sallary = e.sallary;
+            }
+        });
+
+        let modal = createModalDelete(name, office, sallary);
         modal.showModal();
         modal.classList.remove('noneModal');
         
@@ -183,8 +263,7 @@ const butExcluir = (name, office, sallary, id) => {
             
             modal.classList.add('noneModal');
             modal.close();
-            
-            
+                        
         });
         
         const cta = document.querySelector('.delete');
@@ -207,29 +286,71 @@ const butExcluir = (name, office, sallary, id) => {
 }
 
 
+
 //editar
-const butEditar = (id) => {
+const butEditar = (name, office, sallary, id) => {
     const editar = document.createElement('div');
     editar.classList.add('editar')
 
     editar.innerHTML = `<img src="assets/imgs/edit.svg" alt="">`;
-    // deletar.innerText = "deletar"
-    editar.addEventListener('click', editarTarefa)
+    
+    editar.addEventListener('click', (evento) => {
+        arrayEmployee.forEach((e)=> {
+            if(e.id === id){
+                name = e.name;
+                office = e.office;
+                sallary = e.sallary;
+            }
+        });
+        
+        let modal = createModalEdit(name, office, sallary);
+        modal.showModal();
+        modal.classList.remove('noneModal');
 
+        const cancel = document.querySelector('.cancel');
+        cancel.addEventListener('click', function(){
+            modal.classList.add('noneModal');
+            modal.close();               
+        });
+
+        const cta = document.querySelector('.saveEdit');
+        cta.addEventListener('click', function(){
+            
+            modal.classList.add('noneModal');
+            modal.close();
+           
+            let n, o, s;
+            arrayEmployee.forEach((e) => {
+                if(e.id === id){
+                    e.name = document.querySelector('.name').value;
+                    e.sallary = document.querySelector('.sallary').value;
+                    e.office = document.querySelector('.office').value;
+
+                    n = document.querySelector('.name').value;
+                    s = document.querySelector('.sallary').value;
+                    o = document.querySelector('.office').value;    
+                }
+            })
+
+            const li = document.getElementById(`${id}`)
+            li.querySelector('.n').innerHTML = n;
+            li.querySelector('.o').innerHTML = o;
+            li.querySelector('.s').innerHTML = 'R$ ' + parseFloat(s).toFixed(2);
+                     
+            saveLocal();
+           
+        });
+    })
 
     return editar
 }
 
-function editarTarefa (evento){
-    const botaoEditar = evento.target
-    const edicao = botaoEditar.parentElement.parentElement.parentElement
-    //proceder edicao
-}
 
-
-
+//para salvar no local storage
 function saveLocal () {
     //salvar no localstorange
     localStorage.setItem('ListEmployee', JSON.stringify(arrayEmployee));
 }
+
+
 

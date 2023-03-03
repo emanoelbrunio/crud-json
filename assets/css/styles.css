@@ -178,6 +178,7 @@ dialog::backdrop {
     width: 100%;
     justify-content: space-between;
     padding: 0 20px 20px 20px;
+    gap: 10px;
     border-bottom: 1px solid var(--cinza);
 }
 
@@ -200,20 +201,36 @@ dialog::backdrop {
     white-space: normal;
 }
 
-.txtConfirm {
+.inputModal {
+    font-size: 18px;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.txtConfirm, .txtConfirmEdit {
     font-size: 20px;
     font-weight: 700;
     width: 100%;
     
     color: red;
 }
+
+.txtConfirmEdit {
+    color: var(--cta);
+}
+
 .divButts {
     display: flex;
     justify-content: end;
     gap: 10px;
 }
 
-.cancel, .delete {
+.cancel, .delete, .saveEdit {
     background: var(--desativa);
     padding: 15px;
     font-size: 18px;
@@ -225,6 +242,12 @@ dialog::backdrop {
 
 }
 
+.saveEdit {
+    background: var(--cta);
+    color: var(--branco);
+}
+
 .delete {
     background: red;
 }
+

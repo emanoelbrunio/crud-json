@@ -238,6 +238,11 @@ buttSave.addEventListener('click', function(e) {
         arrayEmployee.push(employee); 
         createLI(name, office, sallary, id)
         saveLocal();
+
+        document.querySelector('#name').value = ''
+        document.querySelector('#office').value = ''
+        sallary= document.querySelector('#sallary').value =''
+
     }
     else {
         alert("Preencha todos os campos corretamente antes de adicionar um funcionário!")
